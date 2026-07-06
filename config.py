@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+
 BASE_DIR = Path(__file__).resolve().parent
 
 
@@ -14,25 +15,31 @@ class Config:
         "change-this-secret-key-before-production"
     )
 
-    DEBUG = False
-    TESTING = False
+    ENV = os.getenv("FLASK_ENV", "development")
 
-    JSON_SORT_KEYS = False
+    DEBUG = ENV == "development"
+
+    TESTING = False
 
     TEMPLATES_AUTO_RELOAD = True
 
-    REPORTS_DIR = BASE_DIR / "reports"
+    JSON_SORT_KEYS = False
 
-    MAX_CONTENT_LENGTH = 10 * 1024 * 1024  # 10 MB
+    MAX_CONTENT_LENGTH = 5 * 1024 * 1024
+
+    SEND_FILE_MAX_AGE_DEFAULT = 0
 
 
 class DevelopmentConfig(Config):
     DEBUG = True
 
 
-class TestingConfig(Config):
-    TESTING = True
-
-
 class ProductionConfig(Config):
     DEBUG = False
+
+
+config = {
+    "development": DevelopmentConfig,
+    "production": ProductionConfig,
+    "default": DevelopmentConfig,
+}

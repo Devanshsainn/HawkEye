@@ -1,22 +1,68 @@
 from flask import Flask
 
-from config import DevelopmentConfig
+from config import config
 
 
-def create_app(config_class=DevelopmentConfig):
+def create_app(config_name: str = "default") -> Flask:
     """
-    Application Factory.
+    Flask Application Factory.
 
-    Creates and configures the HawkEye Flask application.
+    Parameters
+    ----------
+    config_name : str
+        Configuration profile.
+
+    Returns
+    -------
+    Flask
+        Configured Flask application.
     """
 
-    app = Flask(__name__)
+    app = Flask(
+        __name__,
+        template_folder="templates",
+        static_folder="static",
+    )
 
-    app.config.from_object(config_class)
+    app.config.from_object(
+        config.get(
+            config_name,
+            config["default"]
+        )
+    )
 
-    # Register Blueprints
-    from app.routes.home import home_bp
+    register_blueprints(app)
 
-    app.register_blueprint(home_bp)
+    register_error_handlers(app)
 
     return app
+
+
+def register_blueprints(app: Flask) -> None:
+    """
+    Register Flask blueprints.
+    """
+
+    from app.routes.main import main_bp
+
+    app.register_blueprint(main_bp)
+def register_error_handlers(app: Flask) -> None:
+    """
+    Register application-wide error handlers.
+    """
+
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return (
+            "<h1>404</h1>"
+            "<p>The requested page could not be found.</p>",
+            404,
+        )
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        return (
+            "<h1>500</h1>"
+            "<p>An internal server error occurred.</p>",
+            500,
+        )
