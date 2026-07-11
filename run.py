@@ -1,4 +1,5 @@
 import os
+print("Running from:", os.getcwd())
 
 from app import create_app
 

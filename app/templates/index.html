@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>HawkEye | Enterprise Security Scanner</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon"
+href="{{ url_for('static', filename='images/favicon.ico') }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<style>
+
+*{
+    font-family:'Inter',sans-serif;
+}
+
+body{
+    background:#020617;
+    overflow-x:hidden;
+}
+
+/* Background */
+
+.bg-grid{
+    position:fixed;
+    inset:0;
+
+    background-image:
+
+    linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+
+    linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+
+    background-size:60px 60px;
+
+    z-index:-3;
+}
+
+.orb{
+
+position:absolute;
+
+border-radius:9999px;
+
+filter:blur(120px);
+
+opacity:.22;
+
+animation:float 18s infinite ease-in-out;
+
+}
+
+.orb1{
+
+width:420px;
+height:420px;
+
+background:#2563eb;
+
+top:-120px;
+left:-120px;
+
+}
+
+.orb2{
+
+width:360px;
+height:360px;
+
+background:#7c3aed;
+
+bottom:-80px;
+right:-80px;
+
+animation-delay:4s;
+
+}
+
+@keyframes float{
+
+0%,100%{
+
+transform:translateY(0px);
+
+}
+
+50%{
+
+transform:translateY(45px);
+
+}
+
+}
+
+.glass{
+
+background:rgba(15,23,42,.72);
+
+backdrop-filter:blur(18px);
+
+border:1px solid rgba(255,255,255,.08);
+
+}
+
+.gradient{
+
+background:linear-gradient(135deg,#2563EB,#3B82F6);
+
+}
+
+.feature:hover{
+
+transform:translateY(-8px);
+
+border-color:#3B82F6;
+
+}
+
+.feature{
+
+transition:.35s;
+
+}
+
+.hero-title{
+
+font-size:clamp(4rem,9vw,6.8rem);
+
+font-weight:800;
+
+line-height:1;
+
+}
+
+.search{
+
+background:#0F172A;
+
+border:1px solid #334155;
+
+transition:.3s;
+
+}
+
+.search:focus{
+
+border-color:#3B82F6;
+
+box-shadow:0 0 0 5px rgba(59,130,246,.15);
+
+outline:none;
+
+}
+
+button{
+
+transition:.3s;
+
+}
+
+button:hover{
+
+transform:translateY(-3px);
+
+box-shadow:0 20px 40px rgba(37,99,235,.35);
+
+}
+
+</style>
+
+</head>
+
+<body class="text-white">
+
+<div class="bg-grid"></div>
+
+<div class="orb orb1"></div>
+
+<div class="orb orb2"></div>
+
+
+<!-- NAVBAR -->
+
+<nav class="fixed top-0 left-0 w-full z-50">
+
+<div class="max-w-7xl mx-auto px-8 py-5">
+
+<div class="glass rounded-2xl px-8 py-5 flex justify-between items-center">
+
+<div class="flex items-center gap-3">
+
+    <img
+        src="{{ url_for('static', filename='images/hawkeye-icon.png') }}"
+        alt="HawkEye Logo"
+        class="h-10 w-10"
+    >
+
+    <span class="text-2xl font-bold tracking-wide">
+        Hawk<span class="text-blue-500">Eye</span>
+    </span>
+
+</div>
+
+<div class="hidden md:flex gap-8 text-slate-300">
+
+<a
+    href="https://github.com/Devanshsainn/HawkEye"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="hover:text-white transition duration-300"
+>
+    GitHub
+</a>
+
+<a
+    href="https://github.com/Devanshsainn/HawkEye#readme"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="hover:text-white transition duration-300"
+>
+    Documentation
+</a>
+
+<a
+    href="https://github.com/Devanshsainn"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="hover:text-white transition duration-300"
+>
+    About
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="min-h-screen flex items-center">
+
+<div class="max-w-7xl mx-auto px-8 w-full">
+
+<div class="text-center">
+
+<div class="inline-flex glass rounded-full px-6 py-3 text-blue-300 mb-8">
+
+Enterprise Passive Security Scanner
+
+</div>
+
+<h1 class="hero-title mb-8">
+
+Analyze Website
+
+<br>
+
+<span class="text-blue-500">
+
+Security Instantly
+
+</span>
+
+</h1>
+
+<p class="text-slate-400 text-xl max-w-3xl mx-auto leading-9">
+
+Analyze SSL certificates, HTTP security headers,
+robots.txt, sitemap.xml and calculate a comprehensive
+security score within seconds.
+
+</p>
+
+<!-- Search -->
+
+<form action="/scan" method="POST" class="mt-14">
+
+<div class="glass rounded-3xl p-3 max-w-4xl mx-auto flex flex-col md:flex-row gap-3">
+
+<input
+
+type="text"
+
+name="domain"
+
+placeholder="example.com"
+
+required
+
+class="search flex-1 rounded-2xl px-8 py-5 text-lg bg-transparent"
+
+>
+
+<button
+
+class="gradient rounded-2xl px-10 py-5 font-semibold text-lg"
+
+>
+
+Scan Website →
+
+</button>
+
+</div>
+
+</form>
+
+
+<!-- Features -->
+
+<div class="grid md:grid-cols-3 gap-8 mt-24">
+
+<div class="glass feature rounded-3xl p-8 text-left">
+
+<div class="w-14 h-14 rounded-xl bg-blue-600/20 flex items-center justify-center mb-6">
+
+<i data-lucide="shield-check"></i>
+
+</div>
+
+<h3 class="text-2xl font-semibold mb-4">
+
+SSL Analysis
+
+</h3>
+
+<p class="text-slate-400 leading-8">
+
+Validate SSL certificates, issuer,
+expiry dates and encryption status.
+
+</p>
+
+</div>
+
+<div class="glass feature rounded-3xl p-8 text-left">
+
+<div class="w-14 h-14 rounded-xl bg-blue-600/20 flex items-center justify-center mb-6">
+
+<i data-lucide="shield"></i>
+
+</div>
+
+<h3 class="text-2xl font-semibold mb-4">
+
+Security Headers
+
+</h3>
+
+<p class="text-slate-400 leading-8">
+
+Detect missing HTTP security headers
+and improve website hardening.
+
+</p>
+
+</div>
+
+<div class="glass feature rounded-3xl p-8 text-left">
+
+<div class="w-14 h-14 rounded-xl bg-blue-600/20 flex items-center justify-center mb-6">
+
+<i data-lucide="activity"></i>
+
+</div>
+
+<h3 class="text-2xl font-semibold mb-4">
+
+Security Score
+
+</h3>
+
+<p class="text-slate-400 leading-8">
+
+Generate a simple security score with
+actionable recommendations.
+
+</p>
+
+</div>
+
+</div>
+
+<!-- Technologies -->
+
+<div class="mt-24">
+
+<p class="text-slate-500 uppercase tracking-[0.4em] text-sm mb-8">
+
+Powered By
+
+</p>
+
+<div class="flex flex-wrap justify-center gap-5">
+
+<span class="glass rounded-full px-5 py-3">Python</span>
+
+<span class="glass rounded-full px-5 py-3">Flask</span>
+
+<span class="glass rounded-full px-5 py-3">Requests</span>
+
+<span class="glass rounded-full px-5 py-3">SSL</span>
+
+<span class="glass rounded-full px-5 py-3">HTML</span>
+
+<span class="glass rounded-full px-5 py-3">Tailwind</span>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer class="pb-14 text-center">
+
+    <p class="text-slate-500 text-base">
+        © 2026 HawkEye • Enterprise Passive Security Scanner
+    </p>
+
+    <p class="mt-6 text-3xl font-extrabold tracking-wider text-blue-400">
+        Developed by
+    </p>
+
+    <a
+        href="https://github.com/DevanshSain"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-block mt-2 text-4xl font-extrabold text-white hover:text-blue-400 transition duration-300 hover:scale-105"
+    >
+        Devansh Sain
+    </a>
+
+</footer>
+
+<script>
+
+lucide.createIcons();
+
+</script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
+</body>
+</html>

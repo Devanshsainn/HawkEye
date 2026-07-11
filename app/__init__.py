@@ -43,9 +43,11 @@ def register_blueprints(app: Flask) -> None:
     Register Flask blueprints.
     """
 
-    from app.routes.main import main_bp
+    from app.routes.home import main_bp
+    from app.routes.scan import scan_bp
 
     app.register_blueprint(main_bp)
+    app.register_blueprint(scan_bp)
 def register_error_handlers(app: Flask) -> None:
     """
     Register application-wide error handlers.

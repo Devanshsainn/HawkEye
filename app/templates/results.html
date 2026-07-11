@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HawkEye Report</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon"
+href="{{ url_for('static', filename='images/favicon.ico') }}">
+<style>
+body{font-family:Inter,sans-serif;background:#020617;color:#fff}
+.glass{background:rgba(15,23,42,.75);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08)}
+.score{width:150px;height:150px;border-radius:9999px;background:linear-gradient(135deg,#2563eb,#3b82f6);display:flex;align-items:center;justify-content:center;font-size:42px;font-weight:800}
+.card:hover{transform:translateY(-4px);transition:.25s}
+</style></head>
+<body class="p-8">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col lg:flex-row justify-between items-center gap-8 mb-10">
+<div><div>
+
+    <img
+        src="{{ url_for('static', filename='images/hawkeye-horizontal.png') }}"
+        alt="HawkEye"
+        class="h-14 w-auto"
+    >
+
+    <p class="text-slate-400 mt-2">
+        Enterprise Security Report
+    </p>
+
+</div><p class="text-slate-400 mt-2">Enterprise Security Report</p></div>
+<div class="text-center"><div class="score">{{ risk.score }}</div><p class="mt-4 text-xl font-semibold">{{ risk.grade }}</p></div></div>
+<div class="glass rounded-3xl p-6 mb-8">
+<div class="grid md:grid-cols-3 gap-6">
+<div><p class="text-slate-400 text-sm">Target</p><p class="text-xl font-semibold">{{ domain }}</p></div>
+<div><p class="text-slate-400 text-sm">Scanned At</p><p>{{ scan_time }}</p></div>
+<div><p class="text-slate-400 text-sm">Duration</p><p>{{ duration }} sec</p></div>
+</div></div>
+<div class="grid lg:grid-cols-2 gap-6">
+<div class="glass card rounded-3xl p-6"><h2 class="text-2xl font-semibold mb-5">🔒 SSL Certificate</h2>{% if ssl.valid %}<div class="space-y-3"><div class="flex justify-between"><span>Status</span><span class="text-green-400">Valid</span></div><div class="flex justify-between"><span>Issuer</span><span>{{ ssl.issuer }}</span></div><div class="flex justify-between"><span>Expires</span><span>{{ ssl.expiry }}</span></div><div class="flex justify-between"><span>Days Remaining</span><span>{{ ssl.days_remaining }}</span></div></div>{% else %}<p class="text-red-400">SSL Certificate Not Found</p>{% endif %}</div>
+<div class="glass card rounded-3xl p-6"><h2 class="text-2xl font-semibold mb-5">🛡 Security Headers</h2>{% for header, enabled in headers.items() %}<div class="flex justify-between py-2 border-b border-slate-700"><span>{{ header }}</span>{% if enabled %}<span class="text-green-400">Enabled</span>{% else %}<span class="text-red-400">Missing</span>{% endif %}</div>{% endfor %}</div>
+<div class="glass card rounded-3xl p-6"><h2 class="text-2xl font-semibold mb-5">🤖 robots.txt</h2>{% if robots %}<p class="text-green-400 font-semibold">Available</p>{% else %}<p class="text-red-400 font-semibold">Not Found</p>{% endif %}</div>
+<div class="glass card rounded-3xl p-6"><h2 class="text-2xl font-semibold mb-5">🗺 sitemap.xml</h2>{% if sitemap %}<p class="text-green-400 font-semibold">Available</p>{% else %}<p class="text-red-400 font-semibold">Not Found</p>{% endif %}</div>
+</div>
+<div class="glass rounded-3xl p-6 mt-8"><h2 class="text-2xl font-semibold mb-5">📋 Recommendations</h2>{% if risk.recommendations %}<div class="grid md:grid-cols-2 gap-4">{% for recommendation in risk.recommendations %}<div class="rounded-2xl bg-slate-900 border border-slate-700 p-4"><p class="text-amber-400 font-semibold mb-2">Recommendation</p><p>{{ recommendation }}</p></div>{% endfor %}</div>{% else %}<p class="text-green-400 font-semibold">No major issues found.</p>{% endif %}</div>
+<div class="text-center text-slate-500 mt-12"><a href="/" class="text-blue-400 hover:underline">← Scan another website</a><p class="mt-6">© 2026 HawkEye • Enterprise Passive Security Scanner</p></div>
+</div>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
+</body></html>

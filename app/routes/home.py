@@ -11,4 +11,4 @@ def home():
     """
     HawkEye landing page.
     """
-    return render_template("pages/home.html")
+    return render_template("index.html")

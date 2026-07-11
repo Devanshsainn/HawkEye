@@ -1,0 +1,64 @@
+
+.spinner{
+width:18px;
+height:18px;
+border:2px solid rgba(255,255,255,.3);
+border-top:2px solid #fff;
+border-radius:50%;
+display:inline-block;
+animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg);}
+}
+
+#scanOverlay{
+position:fixed;
+inset:0;
+background:rgba(2,6,23,.92);
+backdrop-filter:blur(12px);
+display:flex;
+align-items:center;
+justify-content:center;
+z-index:9999;
+}
+
+.scan-box{
+width:min(500px,90%);
+padding:40px;
+border-radius:24px;
+background:#0f172a;
+border:1px solid #334155;
+text-align:center;
+box-shadow:0 20px 60px rgba(0,0,0,.45);
+}
+
+.scan-box h2{
+font-size:2rem;
+margin-bottom:20px;
+}
+
+.scan-box p{
+color:#94a3b8;
+margin-bottom:25px;
+}
+
+.progress{
+height:8px;
+background:#1e293b;
+border-radius:999px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:100%;
+background:linear-gradient(90deg,#2563eb,#60a5fa);
+animation:load 2.2s linear forwards;
+}
+
+@keyframes load{
+from{transform:translateX(-100%);}
+to{transform:translateX(0);}
+}
