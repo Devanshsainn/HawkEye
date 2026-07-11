@@ -48,29 +48,13 @@ The project demonstrates practical cybersecurity concepts including SSL inspecti
 
 ## Landing Page
 
-> Replace with your screenshot.
-
-```text
-screenshots/landing-page.png
-```
-
-```markdown
 ![Landing Page](screenshots/landing-page.png)
-```
 
 ---
 
 ## Results Dashboard
 
-> Replace with your screenshot.
-
-```text
-screenshots/results-dashboard.png
-```
-
-```markdown
 ![Results Dashboard](screenshots/results-dashboard.png)
-```
 
 ---
 
